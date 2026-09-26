@@ -1,0 +1,39 @@
+{
+  "title": "Sai Kung \u00b7 My Travel Journey",
+  "models": [
+    "Qwen3.6-27B",
+    "Qwen-Image-Edit-2511",
+    "TRELLIS.2-4B"
+  ],
+  "omniverse_complete": true,
+  "assets": {
+    "coast": {
+      "triangles": 118536,
+      "size": 12
+    },
+    "traveler": {
+      "triangles": 116063,
+      "size": 1.4
+    },
+    "boat": {
+      "triangles": 115252,
+      "size": 2.1
+    }
+  },
+  "source": "https://www.youtube.com/watch?v=9jtnoejpLcU",
+  "source_timestamps": [
+    60,
+    80,
+    98
+  ],
+  "animation": [
+    "boat transform",
+    "browser water and ripples"
+  ],
+  "limitations": [
+    "artistic spatial layout, not navigation geography",
+    "traveler is posed, not skeletally animated",
+    "unseen sides are model-generated"
+  ],
+  "paid_api_calls": 0
+}
