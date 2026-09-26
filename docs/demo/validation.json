@@ -1,0 +1,117 @@
+[
+  {
+    "scene": "coast",
+    "passed": true,
+    "state": {
+      "scene": "coast",
+      "loading": false,
+      "error": null,
+      "preset": "day",
+      "intensity": 1,
+      "playing": false,
+      "time": 0.569699999999255,
+      "scale": 1,
+      "assets": [
+        "coast",
+        "traveler",
+        "boat",
+        "passenger-white",
+        "passenger-dark",
+        "passenger-orange"
+      ],
+      "triangles": 427366,
+      "passengerCount": 3,
+      "passengerPositions": [
+        [
+          -0.44,
+          0.59,
+          0.55
+        ],
+        [
+          0,
+          0.59,
+          0.55
+        ],
+        [
+          0.44,
+          0.59,
+          0.55
+        ]
+      ],
+      "attachedToBoat": true,
+      "canopyOpen": false,
+      "stars": 0,
+      "lights": [
+        0,
+        0
+      ],
+      "camera": [
+        24.651282051282056,
+        11.260512820512822,
+        31.138461538461534
+      ],
+      "selectedMemory": 2,
+      "subjectPosition": [
+        -7.9692421904341675,
+        -0.35233474977078644,
+        6.599649511390969
+      ],
+      "sunIntensity": 3,
+      "illustrativePedestrians": 0
+    },
+    "errors": []
+  },
+  {
+    "scene": "city",
+    "passed": true,
+    "state": {
+      "scene": "city",
+      "loading": false,
+      "error": null,
+      "preset": "day",
+      "intensity": 1,
+      "playing": false,
+      "time": 0.556800000000745,
+      "scale": 1,
+      "assets": [
+        "city/city-buildings",
+        "city/city-tram",
+        "passenger-white",
+        "passenger-dark",
+        "passenger-orange"
+      ],
+      "triangles": 202264,
+      "passengerCount": 0,
+      "passengerPositions": [],
+      "attachedToBoat": true,
+      "canopyOpen": false,
+      "stars": 0,
+      "lights": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "camera": [
+        19.317116263692316,
+        27.61225114280002,
+        36.05861702555898
+      ],
+      "selectedMemory": 2,
+      "subjectPosition": [
+        -1.35,
+        0.035,
+        0.534130366276017
+      ],
+      "sunIntensity": 3,
+      "illustrativePedestrians": 12
+    },
+    "errors": []
+  }
+]

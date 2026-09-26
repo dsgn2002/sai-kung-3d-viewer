@@ -1,39 +1,91 @@
 {
-  "title": "Sai Kung \u00b7 My Travel Journey",
-  "models": [
-    "Qwen3.6-27B",
-    "Qwen-Image-Edit-2511",
-    "TRELLIS.2-4B"
-  ],
-  "omniverse_complete": true,
-  "assets": {
-    "coast": {
-      "triangles": 118536,
-      "size": 12
-    },
-    "traveler": {
-      "triangles": 116063,
-      "size": 1.4
-    },
-    "boat": {
-      "triangles": 115252,
-      "size": 2.1
-    }
+  "title": "Two sides of Hong Kong \u00b7 My Travel Journey",
+  "version": 2,
+  "generation": "Local Qwen-Image-Edit-2511 and TRELLIS.2-4B on DGX Spark",
+  "assembly": "Three.js browser scene; original coast assets also have an earlier Omniverse scene",
+  "scene_plan": "scene-plan.json",
+  "coast": {
+    "required_passengers": 3,
+    "passenger_assets": [
+      "passenger-white",
+      "passenger-dark",
+      "passenger-orange"
+    ],
+    "source": "https://www.youtube.com/watch?v=9jtnoejpLcU",
+    "source_timestamps": [
+      58,
+      60,
+      62,
+      80,
+      98
+    ]
   },
-  "source": "https://www.youtube.com/watch?v=9jtnoejpLcU",
-  "source_timestamps": [
-    60,
-    80,
-    98
+  "city": {
+    "source": "https://commons.wikimedia.org/wiki/File:Hong_Kong_Trams,_September_2009-UKNqZzl2cu8.webm",
+    "author": "michaelinlondon",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "source_timestamps": [
+      50,
+      190,
+      435
+    ],
+    "changes": "Frames extracted and transformed into stylized meshes; layout, illustrative pedestrians, and alternate lighting added"
+  },
+  "atmospheres": [
+    "daylight",
+    "golden sunset",
+    "night sky"
   ],
   "animation": [
-    "boat transform",
-    "browser water and ripples"
+    "boat with three attached passengers",
+    "tram travel",
+    "water waves"
   ],
+  "original_coast_generation": {
+    "title": "Sai Kung \u00b7 My Travel Journey",
+    "models": [
+      "Qwen3.6-27B",
+      "Qwen-Image-Edit-2511",
+      "TRELLIS.2-4B"
+    ],
+    "omniverse_complete": true,
+    "assets": {
+      "coast": {
+        "triangles": 118536,
+        "size": 12
+      },
+      "traveler": {
+        "triangles": 116063,
+        "size": 1.4
+      },
+      "boat": {
+        "triangles": 115252,
+        "size": 2.1
+      }
+    },
+    "source": "https://www.youtube.com/watch?v=9jtnoejpLcU",
+    "source_timestamps": [
+      60,
+      80,
+      98
+    ],
+    "animation": [
+      "boat transform",
+      "browser water and ripples"
+    ],
+    "limitations": [
+      "artistic spatial layout, not navigation geography",
+      "traveler is posed, not skeletally animated",
+      "unseen sides are model-generated"
+    ],
+    "paid_api_calls": 0
+  },
   "limitations": [
-    "artistic spatial layout, not navigation geography",
-    "traveler is posed, not skeletally animated",
-    "unseen sides are model-generated"
+    "stylized approximate faces",
+    "generated hidden surfaces",
+    "composed spatial layouts, not surveyed geography",
+    "posed people without skeletal animation",
+    "city pedestrians are illustrative additions"
   ],
   "paid_api_calls": 0
 }
