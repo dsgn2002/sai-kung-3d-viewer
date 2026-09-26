@@ -1,0 +1,55 @@
+{
+  "title": "Hong Kong Trams, September 2009",
+  "creator": "michaelinlondon",
+  "source_page": "https://commons.wikimedia.org/wiki/File:Hong_Kong_Trams,_September_2009-UKNqZzl2cu8.webm",
+  "video_url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Hong_Kong_Trams%2C_September_2009-UKNqZzl2cu8.webm",
+  "license": "https://creativecommons.org/licenses/by/3.0/",
+  "sha256": "9275c744742c2e683ca054e79687583d3cdc0558ff35f0c225017bfcb08f6e5b",
+  "bytes": 62315947,
+  "source_resolution": [
+    480,
+    360
+  ],
+  "selected_seconds": [
+    140.25,
+    314.25,
+    404.5125
+  ],
+  "changes": "Three new building assets generated locally from the sampled source frames: office tower, rounded apartment corner, and older pink shophouses. Earlier generated tram reused. Three silent 3-second clips extracted. Layout, pedestrians, hidden surfaces and alternate lighting are illustrative.",
+  "selection_method": "24 candidates sampled across the 562.8-second source using duration coverage and shot interiors; three visually selected architecture settings.",
+  "selected_frames": [
+    {
+      "label": "office-avenue",
+      "timestamp_s": 140.25,
+      "sha256": "d95f0dde2e0073d6064c0301d8f3dc2fe723031ad7a682b85aa82f9a6028b807",
+      "asset": "city-office",
+      "clip_range_s": [
+        139.25,
+        142.25
+      ],
+      "clip_sha256": "81a6d03164e7e60481a39741647313c809656369ed783a097e5f5b7056b24e4c"
+    },
+    {
+      "label": "apartment-corner",
+      "timestamp_s": 314.25,
+      "sha256": "aa69001cb89b846642f43f79d0efe9336f7eb0d3700c2b369f6e391411ea02d5",
+      "asset": "city-corner",
+      "clip_range_s": [
+        313.25,
+        316.25
+      ],
+      "clip_sha256": "f85abe04b7414ff9784227b3404cbdbcce9ffe2e389a8f6d26c1a0ffc9288f73"
+    },
+    {
+      "label": "tram-shopfronts",
+      "timestamp_s": 404.5125,
+      "sha256": "60a28756d5a84db06dc2b72531c9dd00ea2ab36677a4611f5d1d0fab3fa2f666",
+      "asset": "city-shophouses",
+      "clip_range_s": [
+        403.5125,
+        406.5125
+      ],
+      "clip_sha256": "13032ec6b4fb31092965b34377ea650f3ced20d2b07c0ecbc4fc44d40bf69064"
+    }
+  ]
+}

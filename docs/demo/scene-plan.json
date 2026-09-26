@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "review_method": "Manually reviewed source frames; generated assets checked in rendered scene",
   "coast": {
     "source_seconds": [
@@ -48,20 +48,44 @@
     "source_url": "https://commons.wikimedia.org/wiki/File:Hong_Kong_Trams,_September_2009-UKNqZzl2cu8.webm",
     "license": "CC BY 3.0",
     "source_seconds": [
-      50,
-      190,
-      435
+      140.25,
+      314.25,
+      404.5125
     ],
     "requirements": [
       "two distinct tram decks",
       "dense apartment shopfronts",
-      "visible street tram tracks"
+      "visible street tram tracks",
+      "three distinct source-conditioned architectural settings",
+      "source moment buttons switch visible city geometry",
+      "silent source preview for every city moment"
     ],
     "creative_additions": [
       "recomposed street layout",
       "illustrative pedestrians",
       "sunset and night lighting"
-    ]
+    ],
+    "moments": [
+      {
+        "id": "office-avenue",
+        "asset": "city-office",
+        "source_timestamp_s": 140.25,
+        "source_sha256": "d95f0dde2e0073d6064c0301d8f3dc2fe723031ad7a682b85aa82f9a6028b807"
+      },
+      {
+        "id": "apartment-corner",
+        "asset": "city-corner",
+        "source_timestamp_s": 314.25,
+        "source_sha256": "aa69001cb89b846642f43f79d0efe9336f7eb0d3700c2b369f6e391411ea02d5"
+      },
+      {
+        "id": "tram-shopfronts",
+        "asset": "city-shophouses",
+        "source_timestamp_s": 404.5125,
+        "source_sha256": "60a28756d5a84db06dc2b72531c9dd00ea2ab36677a4611f5d1d0fab3fa2f666"
+      }
+    ],
+    "generation_run": "2026-09-27-city-refresh"
   },
   "limitations": [
     "stylized faces and inferred hidden surfaces",

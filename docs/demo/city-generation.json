@@ -1,0 +1,112 @@
+{
+  "date": "2026-09-27",
+  "hardware": "NVIDIA DGX Spark",
+  "inference": "local cached models; no hosted inference API",
+  "source": "https://commons.wikimedia.org/wiki/File:Hong_Kong_Trams,_September_2009-UKNqZzl2cu8.webm",
+  "source_author": "michaelinlondon",
+  "source_license": "CC BY 3.0",
+  "source_sha256": "9275c744742c2e683ca054e79687583d3cdc0558ff35f0c225017bfcb08f6e5b",
+  "selection_method": "24 full-duration adaptive candidates; visually reviewed by coding agent. No Qwen evidence-skill acceptance claim.",
+  "assets": [
+    {
+      "name": "city-office",
+      "source_timestamp_s": 140.25,
+      "source_frame_sha256": "d95f0dde2e0073d6064c0301d8f3dc2fe723031ad7a682b85aa82f9a6028b807",
+      "style_model": "Qwen-Image-Edit-2511",
+      "style_seconds": 120.5884272090625,
+      "style_seed": 327,
+      "style_steps": 24,
+      "mesh_model": "microsoft/TRELLIS.2-4B",
+      "mesh_seconds": 52.63827102200594,
+      "mesh_pipeline": "512",
+      "browser_asset": "city/city-office.web.glb",
+      "browser_sha256": "8893bb2d470165bf62b9b72ef312fb88a326c4e7d583ef44bf602f986ab03525",
+      "bounds": [
+        [
+          -0.19430841505527496,
+          -0.5019035935401917,
+          -0.19560621678829193
+        ],
+        [
+          0.1942535936832428,
+          0.5019913911819458,
+          0.1931001991033554
+        ]
+      ],
+      "triangles": 58936,
+      "removed_studio_floor_faces": 0,
+      "original_bytes": 12067720,
+      "browser_bytes": 1839324
+    },
+    {
+      "name": "city-corner",
+      "source_timestamp_s": 314.25,
+      "source_frame_sha256": "aa69001cb89b846642f43f79d0efe9336f7eb0d3700c2b369f6e391411ea02d5",
+      "style_model": "Qwen-Image-Edit-2511",
+      "style_seconds": 120.29617133596912,
+      "style_seed": 328,
+      "style_steps": 24,
+      "mesh_model": "microsoft/TRELLIS.2-4B",
+      "mesh_seconds": 66.92772816109937,
+      "mesh_pipeline": "512",
+      "browser_asset": "city/city-corner.web.glb",
+      "browser_sha256": "a9d65adbfe5cf05edc675f19dd637798bcd2ddf19202b8005fcee9f7def481ad",
+      "bounds": [
+        [
+          -0.42421841621398926,
+          -0.5014926195144653,
+          -0.4750460386276245
+        ],
+        [
+          0.4243840277194977,
+          0.5019837021827698,
+          0.47415339946746826
+        ]
+      ],
+      "triangles": 55254,
+      "removed_studio_floor_faces": 4324,
+      "original_bytes": 11018352,
+      "browser_bytes": 1238196
+    },
+    {
+      "name": "city-shophouses",
+      "source_timestamp_s": 404.5125,
+      "source_frame_sha256": "60a28756d5a84db06dc2b72531c9dd00ea2ab36677a4611f5d1d0fab3fa2f666",
+      "style_model": "Qwen-Image-Edit-2511",
+      "style_seconds": 120.74622676009312,
+      "style_seed": 329,
+      "style_steps": 24,
+      "mesh_model": "microsoft/TRELLIS.2-4B",
+      "mesh_seconds": 45.317372309044,
+      "mesh_pipeline": "512",
+      "browser_asset": "city/city-shophouses.web.glb",
+      "browser_sha256": "be1daf0cee2668cf8f77b7881ec89ccdfeab8a3a299af5ea6435eb5f6b687981",
+      "bounds": [
+        [
+          -0.5019464492797852,
+          -0.4689578115940094,
+          -0.24742314219474792
+        ],
+        [
+          0.5019183158874512,
+          0.46984434127807617,
+          0.24732434749603271
+        ]
+      ],
+      "triangles": 54863,
+      "removed_studio_floor_faces": 1263,
+      "original_bytes": 9285820,
+      "browser_bytes": 1443380
+    }
+  ],
+  "reused": [
+    "Existing city-tram asset",
+    "Illustrative pedestrian meshes"
+  ],
+  "limitations": [
+    "Stylized source-conditioned assets, not surveyed architecture",
+    "Rooflines and unseen surfaces are inferred",
+    "Street layouts are composed",
+    "Does not demonstrate the complete automatic skills-to-generation flow"
+  ]
+}

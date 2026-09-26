@@ -22,3 +22,7 @@ Source footage, models, and generated assets retain their respective rights.
 
 GitHub Pages serves `/docs`. Start a local HTTP server to inspect the viewer;
 opening the viewer directly as a file does not support module or mesh fetching.
+
+## City refresh — 2026-09-27
+
+Three sampled video moments now select different generated architecture: an office avenue (140.25 s), a rounded apartment corner (314.25 s), and older tram-side shops (404.50 s). Each has a silent source clip. The original generated tram is reused; city layout and pedestrians remain illustrative. Source/frame provenance is in `docs/demo/city-source.json`.
