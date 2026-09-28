@@ -33,8 +33,9 @@ The homepage now offers three experiences: the two existing public demos and
 `/create/` for personal video/photo uploads. Both demo viewers link to the personal
 flow. `/create/` explains upload → suggested moments/styles → saved approval →
 generation, and opens the invitation-protected MemGen application as a top-level
-page. It never collects invitations, uploads media, embeds the private app, or
-makes cross-origin API calls. Existing scene assets and generation code are unchanged.
+page. Public static mode opens the private app for invitation login. Local recording
+mode adds an invitation form validated through a loopback login gateway. The site
+does not upload media, embed the private app, or make cross-origin API calls. Existing scene assets and generation code are unchanged.
 
 ### Required deployment setting
 
@@ -50,7 +51,9 @@ Keep invitation codes out of this file and repository. Use the upload service's
 secure-cookie HTTPS configuration described in the
 [MemGen upload guide](https://github.com/dsgn2002/MemGen/tree/main/upload-app).
 
-**Current setting is `null`: personal access is shown as being prepared.**
+**The public static setting remains `null`: online access is shown as being prepared.**
+For a working local recording, use the recording server below; it supplies a
+local configuration at runtime without publishing localhost links.
 The existing `https://dsgn2002.github.io/sai-kung-3d-viewer/demo/index.html` URL
 is the static sample viewer, not an upload backend. GitHub Pages does not host
 the Python API/GPU worker. A local `127.0.0.1` address is not usable by teammates.
@@ -84,3 +87,36 @@ new page navigation, unconfigured/configured/unavailable launcher states, both
 3D demos loading geometry, and links from both viewers into the personal flow.
 The configured-launch test uses an explicitly mocked HTTPS workspace; a real
 public endpoint and end-to-end public upload remain to be configured and tested.
+
+
+## Record a demo now — no new hosting provider
+
+Use the existing Spark upload API/worker and SSH forward on port 8892. Run:
+
+```bash
+python3 scripts/recording_server.py --port 8897 --upload-port 8892
+```
+
+Open **http://127.0.0.1:8897/**. Choose **Create your own**, enter your existing
+invitation code, and click **Enter workspace**. The invitation is checked against
+the real Spark application. The browser then opens the authenticated workspace
+at `http://127.0.0.1:8892/`, where saved trips and the normal upload → analysis →
+review → generation flow are available. No second login is needed.
+
+The recording server binds only to `127.0.0.1`. It serves the website and forwards
+only `/demo-login` to the existing loopback upload service. It does not start
+inference or create public tunnels. Codes are never stored or logged, and the
+HTTP-only session cookie is preserved. Both ports deliberately use the same
+loopback hostname so the cookie can reach the upload app. Use the upload app's
+existing local-HTTP configuration (`TRIP_COOKIE_SECURE=0`); retain secure cookies
+for any later HTTPS deployment. Keep the recording server and SSH forward running
+while recording. The public HTTPS deployment can be configured separately later.
+
+Validation: four configuration checks and three login-gateway tests pass. A real
+invitation login in Chrome opens existing saved projects without a second login;
+the desktop and phone layouts were inspected. No upload or inference job was
+started during this check. This is a single-user recording setup, not a load test.
+
+```bash
+python3 -m unittest discover -s tests -p 'test_*.py'
+```

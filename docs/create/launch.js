@@ -1,5 +1,5 @@
-// This public site only navigates to the private app; it never handles user media
-// or invitation credentials. The private application and API share one origin.
+// Public mode navigates to the private app. The loopback recording server also
+// supports a same-origin invitation form; it never stores the code.
 export function workspaceURL(value) {
   if (typeof value !== 'string' || !value.trim()) return null;
   try {
@@ -11,20 +11,44 @@ export function workspaceURL(value) {
     return url.href;
   } catch { return null; }
 }
-async function loadWorkspace() {
-  const link = document.getElementById('open-workspace');
-  const status = document.getElementById('launch-status');
+export function localRecording(config, origin) {
   try {
-    const response = await fetch('../site-config.json', {cache:'no-store'});
-    if (!response.ok) throw new Error('Configuration unavailable');
-    const config = await response.json(), target = workspaceURL(config.uploadAppUrl);
-    if (!target) return;
-    link.href = target;
-    link.hidden = false;
-    status.textContent = 'Ready to create? Open your workspace and enter your invitation code.';
-    document.getElementById('launch-help').textContent = 'Your media and saved projects stay in that workspace. You can return here to explore the sample demos.';
-  } catch {
-    status.textContent = 'We couldn’t load the workspace link. Try refreshing, or use the link supplied by your demo host. The sample journeys are still available below.';
+    const site=new URL(origin), app=new URL(config.uploadAppUrl);
+    return config.mode==='local-recording' && site.protocol==='http:' && site.hostname==='127.0.0.1'
+      && app.protocol==='http:' && app.hostname==='127.0.0.1' && app.port!==site.port
+      && app.pathname==='/' && !app.username && !app.password && !app.search && !app.hash
+      && config.loginPath==='/demo-login';
+  } catch { return false; }
+}
+async function loadWorkspace() {
+  const link=document.getElementById('open-workspace'), status=document.getElementById('launch-status');
+  const form=document.getElementById('invitation-form'), input=document.getElementById('invitation-code'), button=document.getElementById('sign-in');
+  try {
+    const response=await fetch('../site-config.json',{cache:'no-store'});
+    if(!response.ok)throw new Error('Configuration unavailable');
+    const config=await response.json();
+    if(localRecording(config,location.origin)){
+      input.disabled=false;button.disabled=false;
+      status.textContent='Enter your invitation to begin. Your saved projects will be waiting for you.';
+      document.getElementById('launch-help').textContent='Your original media and personal results stay in your private workspace.';
+      form.onsubmit=async event=>{
+        event.preventDefault();button.disabled=true;input.disabled=true;status.textContent='Checking your invitation…';
+        try {
+          const login=await fetch(config.loginPath,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:input.value.trim()})});
+          const data=await login.json();if(!login.ok)throw new Error(data.detail||'Unable to sign in.');
+          input.value='';location.assign(config.uploadAppUrl);
+        }catch(error){status.textContent=error.message;button.disabled=false;input.disabled=false;input.focus();}
+      };
+      return;
+    }
+    const target=workspaceURL(config.uploadAppUrl);
+    if(!target)return;
+    // Static public hosting cannot authenticate against a different origin.
+    form.hidden=true;link.href=target;link.hidden=false;
+    status.textContent='Open your secure workspace to enter your invitation code.';
+    document.getElementById('launch-help').textContent='Your media and saved projects stay in that workspace. You can return here to explore the sample demos.';
+  }catch{
+    status.textContent='We couldn’t load the workspace link. Try refreshing, or use the link supplied by your demo host. The sample journeys are still available below.';
   }
 }
-if (typeof document !== 'undefined') loadWorkspace();
+if(typeof document!=='undefined')loadWorkspace();
