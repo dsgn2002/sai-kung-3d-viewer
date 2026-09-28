@@ -13,8 +13,8 @@ from urllib.parse import urlsplit
 DOCS = Path(__file__).resolve().parents[1] / 'docs'
 
 class RecordingHandler(SimpleHTTPRequestHandler):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=str(DOCS), **kwargs)
+    def __init__(self, request, client_address, server):
+        super().__init__(request, client_address, server, directory=str(getattr(server, 'docs', DOCS)))
 
     def json_response(self, status, data, cookies=()):
         body = json.dumps(data).encode()
@@ -83,12 +83,14 @@ class RecordingHandler(SimpleHTTPRequestHandler):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--port',type=int,default=8897)
+    parser.add_argument('--docs-dir',type=Path,default=DOCS)
     parser.add_argument('--upload-port',type=int,default=8892)
     args = parser.parse_args()
     if args.port == args.upload_port:
         parser.error('Website and upload ports must differ.')
     server = ThreadingHTTPServer(('127.0.0.1',args.port),RecordingHandler)
     server.upload_port = args.upload_port
+    server.docs = args.docs_dir.resolve()
     print(f'Recording website: http://127.0.0.1:{server.server_port}/create/',flush=True)
     try:
         server.serve_forever()
