@@ -37,3 +37,17 @@ class RecordingTests(unittest.TestCase):
         self.assertEqual(status,401);self.assertNotIn('Set-Cookie',headers);self.assertIn('invalid',data['detail'])
     def test_foreign_origin_cannot_submit(self):
         self.assertEqual(self.send('test-invitation-code','https://other.example')[0],403)
+    def test_public_form_redirects_with_session_cookie(self):
+        conn=http.client.HTTPConnection('127.0.0.1',self.server.server_port)
+        conn.request('POST','/demo-login','code=test-invitation-code',
+            {'Content-Type':'application/x-www-form-urlencoded','Origin':recording.PUBLIC_SITE_ORIGIN})
+        response=conn.getresponse();headers=dict(response.getheaders());response.read();conn.close()
+        self.assertEqual(response.status,303)
+        self.assertEqual(headers['Location'],f'http://127.0.0.1:{self.backend.server_port}/')
+        self.assertIn('HttpOnly',headers['Set-Cookie'])
+    def test_public_form_rejects_wrong_origin(self):
+        conn=http.client.HTTPConnection('127.0.0.1',self.server.server_port)
+        conn.request('POST','/demo-login','code=test-invitation-code',
+            {'Content-Type':'application/x-www-form-urlencoded','Origin':'https://other.example'})
+        response=conn.getresponse();response.read();conn.close()
+        self.assertEqual(response.status,403)

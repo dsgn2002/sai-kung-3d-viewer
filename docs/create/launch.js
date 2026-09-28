@@ -20,6 +20,15 @@ export function localRecording(config, origin) {
       && config.loginPath==='/demo-login';
   } catch { return false; }
 }
+export function recordingFormURL(value) {
+  if (typeof value !== 'string') return null;
+  try {
+    const url=new URL(value);
+    if (url.protocol!=='http:' || url.hostname!=='127.0.0.1' || url.pathname!=='/demo-login'
+        || !url.port || url.username || url.password || url.search || url.hash) return null;
+    return url.href;
+  } catch { return null; }
+}
 async function loadWorkspace() {
   const link=document.getElementById('open-workspace'), status=document.getElementById('launch-status');
   const form=document.getElementById('invitation-form'), input=document.getElementById('invitation-code'), button=document.getElementById('sign-in');
@@ -42,13 +51,24 @@ async function loadWorkspace() {
       return;
     }
     const target=workspaceURL(config.uploadAppUrl);
-    if(!target)return;
+    if(!target){
+      const recording=recordingFormURL(config.recordingLoginUrl);
+      if(recording){
+        form.action=recording;form.method='post';
+        input.disabled=false;button.disabled=false;
+        status.textContent='Enter your invitation code on the demo computer to open the private upload workspace.';
+        document.getElementById('launch-help').textContent='This recording setup runs on the demo computer. Other devices need a separate workspace address.';
+      }else{
+        status.textContent='The upload workspace is not configured yet. Ask your demo host for its workspace link.';
+      }
+      return;
+    }
     // Static public hosting cannot authenticate against a different origin.
     form.hidden=true;link.href=target;link.hidden=false;
     status.textContent='Open your secure workspace to enter your invitation code.';
-    document.getElementById('launch-help').textContent='Your media and saved projects stay in that workspace. You can return here to explore the sample demos.';
+    document.getElementById('launch-help').textContent='Your media and saved projects stay in that workspace.';
   }catch{
-    status.textContent='We couldn’t load the workspace link. Try refreshing, or use the link supplied by your demo host. The sample journeys are still available below.';
+    status.textContent='We couldn’t load the workspace link. Try refreshing, or use the link supplied by your demo host.';
   }
 }
 if(typeof document!=='undefined')loadWorkspace();
