@@ -1,5 +1,6 @@
 # My Travel Journey — Two sides of Hong Kong
 
+[New world website](https://dsgn2002.github.io/sai-kung-3d-viewer/demo/world.html) ·
 [Project website](https://dsgn2002.github.io/sai-kung-3d-viewer/) ·
 [Coast and companions](https://dsgn2002.github.io/sai-kung-3d-viewer/demo/?scene=coast) ·
 [City by tram](https://dsgn2002.github.io/sai-kung-3d-viewer/demo/?scene=city)
@@ -120,3 +121,24 @@ started during this check. This is a single-user recording setup, not a load tes
 ```bash
 python3 -m unittest discover -s tests -p 'test_*.py'
 ```
+
+## Record the merged globe UI with personal uploads
+
+To combine the teammate's merged MemGen world interface with the invitation
+workflow, prepare a separate preview directory. The published demo files remain
+unchanged. Use a MemGen ref that contains the world UI (PR #2 or newer):
+
+```bash
+python3 scripts/prepare_world_preview.py --memgen /path/to/MemGen \
+  --ref origin/main --output /tmp/memgen-world-preview
+python3 scripts/recording_server.py --port 8898 --upload-port 8892 \
+  --docs-dir /tmp/memgen-world-preview
+```
+
+Open `http://127.0.0.1:8898/demo/world.html`. **Create your own scene** leads to
+`/create/`, where the real invitation login opens the existing upload workspace.
+The same entry is available from scene viewers and sample-destination cards.
+The create page has a World link for returning to the globe. Source commit
+provenance is recorded in `preview-revision.txt` in the generated directory.
+Personal results remain in the private workspace; the static globe does not
+invent coordinates or add uploaded trips automatically.
