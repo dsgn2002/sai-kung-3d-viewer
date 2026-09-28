@@ -36,7 +36,7 @@ flow. `/create/` explains upload → suggested moments/styles → saved approval
 generation, and opens the invitation-protected MemGen application as a top-level
 page. Public static mode opens the private app for invitation login. Local recording
 mode adds an invitation form validated through a loopback login gateway. The site
-does not upload media, embed the private app, or make cross-origin API calls. Existing scene assets and generation code are unchanged.
+does not upload media or embed the private app. The published page sends a native form post to the local recording server on the demo computer. Existing generated assets are unchanged.
 
 ### Required deployment setting
 
@@ -52,14 +52,11 @@ Keep invitation codes out of this file and repository. Use the upload service's
 secure-cookie HTTPS configuration described in the
 [MemGen upload guide](https://github.com/dsgn2002/MemGen/tree/main/upload-app).
 
-**The public static setting remains `null`: online access is shown as being prepared.**
-For a working local recording, use the recording server below; it supplies a
-local configuration at runtime without publishing localhost links.
+**The public upload app remains unconfigured.** The published form posts an invitation to the loopback recording server at `127.0.0.1:8898` when opened on the demo computer. The recording server and SSH forward must be running. On any other device, the host must provide a separately deployed HTTPS workspace.
 The existing `https://dsgn2002.github.io/sai-kung-3d-viewer/demo/index.html` URL
 is the static sample viewer, not an upload backend. GitHub Pages does not host
 the Python API/GPU worker. A local `127.0.0.1` address is not usable by teammates.
-No public tunnel or upload service is created by this PR. Do not announce public
-uploads as available until the real HTTPS origin has been configured and verified.
+No public tunnel or upload service is created. Do not announce public uploads as available until the real HTTPS origin has been configured and verified.
 The launcher rejects non-HTTPS, credential-bearing/query/hash URLs, GitHub Pages
 hosts and non-root paths to prevent an accidental loop back into the demos.
 
@@ -70,9 +67,7 @@ python3 -m http.server 8789 --bind 127.0.0.1 --directory docs
 node --test tests/config.test.mjs
 ```
 
-Open `http://127.0.0.1:8789/` and `/create/`. Serve through HTTP rather than opening
-HTML as a file. The embed and links are relative, so repository subpaths and local
-previews use the same scene files. The unconfigured view keeps both demos usable.
+Open `http://127.0.0.1:8789/` and `/create/`. Serve through HTTP rather than opening HTML as a file. The root opens the globe, and the public invitation form needs the recording server on port 8898. The globe remains usable without the upload service.
 
 Browser smoke check (Playwright and Chrome supplied by your environment):
 
@@ -83,9 +78,7 @@ SITE_URL=http://127.0.0.1:8789/ \
 node tests/site-smoke.cjs
 ```
 
-Verified at desktop (1280 px) and phone (390 px) widths: three experience cards,
-new page navigation, unconfigured/configured/unavailable launcher states, both
-3D demos loading geometry, and links from both viewers into the personal flow.
+Verified at desktop (1280 px) and phone (390 px) widths: globe and creation navigation, invitation form availability, both 3D demos loading geometry, and links from both viewers into the personal flow.
 The configured-launch test uses an explicitly mocked HTTPS workspace; a real
 public endpoint and end-to-end public upload remain to be configured and tested.
 
@@ -98,14 +91,14 @@ Use the existing Spark upload API/worker and SSH forward on port 8892. Run:
 python3 scripts/recording_server.py --port 8897 --upload-port 8892
 ```
 
-Open **http://127.0.0.1:8897/**. Choose **Create your own**, enter your existing
+Open **http://127.0.0.1:8897/**. The site enters at the globe. Choose **Create your own**, enter your existing
 invitation code, and click **Enter workspace**. The invitation is checked against
 the real Spark application. The browser then opens the authenticated workspace
 at `http://127.0.0.1:8892/`, where saved trips and the normal upload → analysis →
 review → generation flow are available. No second login is needed.
 
 The recording server binds only to `127.0.0.1`. It serves the website and forwards
-only `/demo-login` to the existing loopback upload service. It does not start
+only `/demo-login` to the existing loopback upload service. Native form posts from the exact GitHub Pages origin are accepted so a demo computer can start at the public globe. It does not start
 inference or create public tunnels. Codes are never stored or logged, and the
 HTTP-only session cookie is preserved. Both ports deliberately use the same
 loopback hostname so the cookie can reach the upload app. Use the upload app's

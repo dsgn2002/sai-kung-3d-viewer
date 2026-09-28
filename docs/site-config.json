@@ -1,3 +1,4 @@
 {
-  "uploadAppUrl": null
+  "uploadAppUrl": null,
+  "recordingLoginUrl": "http://127.0.0.1:8898/demo-login"
 }

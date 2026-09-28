@@ -21,7 +21,6 @@ const memories=city?[
 ];
 document.body.dataset.scene=city?'city':'coast';
 const cityGroups=[];let cityMomentReady=false;
-$(city?'city-link':'coast-link').setAttribute('aria-current','page');
 if(city){$('chapter').textContent='02 / HONG KONG ISLAND';$('title').textContent='A city in motion.';$('focus').textContent='Follow the tram';$('canopy-control').hidden=true;}
 $('about').textContent=city?'Three sampled moments from a 2009 Hong Kong tram-travel video guide three distinct city settings: office towers, a rounded apartment corner and older pink shopfronts. New building assets were generated locally on DGX Spark from the displayed frames. The earlier tram asset is reused. Layout, unseen surfaces, lights and pedestrians are illustrative; this is not a measured reconstruction.':'Three separate reference-conditioned passenger meshes restore the visible group aboard the boat. Their clothing is approximate, and their faces are stylized. The landscape is an artistic composition. Open canopy view removes the roof for inspection.';
 $('credits').innerHTML=city?`Source: <a href="${sourceCity}" target="_blank" rel="noopener">Hong Kong Trams, September 2009</a> by michaelinlondon, <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>. Frames extracted and transformed into stylized assets.`:'Source: <a href="https://www.youtube.com/watch?v=9jtnoejpLcU" target="_blank" rel="noopener">The Travel Intern · Hong Kong Outdoor Adventure</a>. Source footage and generated assets retain their respective rights.';

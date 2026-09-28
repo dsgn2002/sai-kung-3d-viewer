@@ -5,12 +5,14 @@ inference, expose a public service, or store invitation codes.
 """
 import argparse
 import http.client
+from html import escape
 import json
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlsplit
 
 DOCS = Path(__file__).resolve().parents[1] / 'docs'
+PUBLIC_SITE_ORIGIN = 'https://dsgn2002.github.io'
 
 class RecordingHandler(SimpleHTTPRequestHandler):
     def __init__(self, request, client_address, server):
@@ -44,19 +46,26 @@ class RecordingHandler(SimpleHTTPRequestHandler):
         return super().do_GET()
 
     def do_POST(self):
-        if not self.valid_host() or self.headers.get('Origin') != self.expected_origin():
+        origin = self.headers.get('Origin')
+        if not self.valid_host() or origin not in (self.expected_origin(), PUBLIC_SITE_ORIGIN):
             return self.json_response(403, {'detail':'Sign in from the local website.'})
         if self.path != '/demo-login':
             return self.json_response(404, {'detail':'Not found.'})
         length = self.headers.get('Content-Length','')
         if self.headers.get('Transfer-Encoding') or not length.isdigit() or not 0 < int(length) <= 4096:
             return self.json_response(400, {'detail':'Invalid invitation request.'})
+        form_post = self.headers.get('Content-Type','').split(';',1)[0].lower() == 'application/x-www-form-urlencoded'
+        if origin == PUBLIC_SITE_ORIGIN and not form_post:
+            return self.json_response(403, {'detail':'Use the invitation form on the project website.'})
         try:
-            data = json.loads(self.rfile.read(int(length)))
+            body = self.rfile.read(int(length))
+            data = parse_qs(body.decode('utf-8'),strict_parsing=True) if form_post else json.loads(body)
+            if form_post:
+                data = {'code':data.get('code',[None])[0]}
             code = data.get('code') if isinstance(data,dict) else None
             if not isinstance(code,str) or not 12 <= len(code.strip()) <= 160:
                 raise ValueError()
-        except (ValueError, TypeError):
+        except (ValueError, TypeError, UnicodeDecodeError):
             return self.json_response(400, {'detail':'Enter the invitation code supplied by your demo host.'})
         connection = http.client.HTTPConnection('127.0.0.1',self.server.upload_port,timeout=25)
         try:
@@ -67,13 +76,37 @@ class RecordingHandler(SimpleHTTPRequestHandler):
             result = json.loads(response.read(65536))
             if response.status != 200:
                 detail = result.get('detail','Unable to sign in.')
+                if form_post:
+                    return self.form_error(response.status, detail if isinstance(detail,str) else 'Invalid invitation request.')
                 return self.json_response(response.status, {'detail':detail if isinstance(detail,str) else 'Invalid invitation request.'})
             cookies = [v for k,v in response.getheaders() if k.lower()=='set-cookie']
+            if form_post:
+                self.send_response(303)
+                self.send_header('Location',f'http://127.0.0.1:{self.server.upload_port}/')
+                self.send_header('Cache-Control','no-store')
+                for cookie in cookies:
+                    self.send_header('Set-Cookie',cookie)
+                self.end_headers()
+                return
             return self.json_response(200, {'ok':True}, cookies)
         except (OSError, ValueError, http.client.HTTPException):
+            if form_post:
+                return self.form_error(502,'The upload workspace is unreachable. Restore the Spark connection and try again.')
             return self.json_response(502, {'detail':'The upload workspace is unreachable. Restore the Spark connection and try again.'})
         finally:
             connection.close()
+
+    def form_error(self, status, detail):
+        body = (f'<!doctype html><html><meta charset="utf-8"><title>Invitation sign-in</title>'
+                f'<main><h1>Could not sign in</h1><p>{escape(detail)}</p>'
+                f'<a href="{PUBLIC_SITE_ORIGIN}/sai-kung-3d-viewer/create/">Try again</a></main></html>').encode()
+        self.send_response(status)
+        self.send_header('Content-Type','text/html; charset=utf-8')
+        self.send_header('Content-Length',str(len(body)))
+        self.send_header('Cache-Control','no-store')
+        self.send_header('Referrer-Policy','no-referrer')
+        self.end_headers()
+        self.wfile.write(body)
 
     def log_message(self, format, *args):
         # Disable request logs entirely: invitation bodies and query strings are private.
