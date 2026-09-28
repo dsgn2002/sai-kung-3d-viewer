@@ -38,7 +38,9 @@ def prepare(memgen, ref, output):
     scene.write_text(s)
     with (output/'demo/viewer.css').open('a') as f:f.write('\n.create-scene-link{text-decoration:none;white-space:nowrap}\n')
     create=output/'create/index.html'
-    s=create.read_text().replace('<nav aria-label="Experiences">','<nav aria-label="Experiences"><a href="../demo/world.html">World</a>')
+    s=create.read_text()
+    if 'href="../demo/world.html"' not in s:
+        s=s.replace('<nav aria-label="Experiences">','<nav aria-label="Experiences"><a href="../demo/world.html">World</a>')
     create.write_text(s)
     (output/'preview-revision.txt').write_text(revision+'\n')
     return revision
