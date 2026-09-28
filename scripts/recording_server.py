@@ -47,16 +47,18 @@ class RecordingHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         origin = self.headers.get('Origin')
-        if not self.valid_host() or origin not in (self.expected_origin(), PUBLIC_SITE_ORIGIN):
+        form_post = self.headers.get('Content-Type','').split(';',1)[0].lower() == 'application/x-www-form-urlencoded'
+        # Browsers send Origin: null when a secure page submits a native form
+        # to loopback HTTP. The server is loopback-only and still requires the
+        # invitation secret before issuing a session.
+        if not self.valid_host() or (origin != self.expected_origin()
+            and not (form_post and origin in (PUBLIC_SITE_ORIGIN, 'null'))):
             return self.json_response(403, {'detail':'Sign in from the local website.'})
         if self.path != '/demo-login':
             return self.json_response(404, {'detail':'Not found.'})
         length = self.headers.get('Content-Length','')
         if self.headers.get('Transfer-Encoding') or not length.isdigit() or not 0 < int(length) <= 4096:
             return self.json_response(400, {'detail':'Invalid invitation request.'})
-        form_post = self.headers.get('Content-Type','').split(';',1)[0].lower() == 'application/x-www-form-urlencoded'
-        if origin == PUBLIC_SITE_ORIGIN and not form_post:
-            return self.json_response(403, {'detail':'Use the invitation form on the project website.'})
         try:
             body = self.rfile.read(int(length))
             data = parse_qs(body.decode('utf-8'),strict_parsing=True) if form_post else json.loads(body)

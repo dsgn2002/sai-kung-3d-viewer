@@ -40,7 +40,7 @@ class RecordingTests(unittest.TestCase):
     def test_public_form_redirects_with_session_cookie(self):
         conn=http.client.HTTPConnection('127.0.0.1',self.server.server_port)
         conn.request('POST','/demo-login','code=test-invitation-code',
-            {'Content-Type':'application/x-www-form-urlencoded','Origin':recording.PUBLIC_SITE_ORIGIN})
+            {'Content-Type':'application/x-www-form-urlencoded','Origin':'null'})
         response=conn.getresponse();headers=dict(response.getheaders());response.read();conn.close()
         self.assertEqual(response.status,303)
         self.assertEqual(headers['Location'],f'http://127.0.0.1:{self.backend.server_port}/')
