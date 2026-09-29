@@ -8,7 +8,7 @@
 Static public demonstration. Generation scripts and viewer source are in
 [MemGen](https://github.com/dsgn2002/MemGen/tree/main/journey-demo/nature_map).
 Models run locally on DGX Spark. The browser uses precomputed compressed GLBs.
-The personal-upload entry connects to the separately hosted MemGen application when its HTTPS address is configured; no upload backend runs on GitHub Pages.
+The create entry is a static walkthrough of the completed local-generation pipeline.
 
 The coast includes three distinct source-conditioned passengers parented to the
 moving boat. Both scenes support daylight, golden sunset, and night lighting.
@@ -28,110 +28,33 @@ opening the viewer directly as a file does not support module or mesh fetching.
 
 Three sampled video moments now select different generated architecture: an office avenue (140.25 s), a rounded apartment corner (314.25 s), and older tram-side shops (404.50 s). Each has a silent source clip. The original generated tram is reused; city layout and pedestrians remain illustrative. Source/frame provenance is in `docs/demo/city-source.json`.
 
-## Personal uploads: website entry and private workspace
+## Static hackathon demo — 2026-09-29
 
-The homepage now offers three experiences: the two existing public demos and
-`/create/` for personal video/photo uploads. Both demo viewers link to the personal
-flow. `/create/` explains upload → suggested moments/styles → saved approval →
-generation, and opens the invitation-protected MemGen application as a top-level
-page. Public static mode opens the private app for invitation login. Local recording
-mode adds an invitation form validated through a loopback login gateway. The site
-does not upload media or embed the private app. The published page sends a native form post to the local recording server on the demo computer. Existing generated assets are unchanged.
+`/create/` is an open, precomputed Mid-Autumn walkthrough. It shows the saved local
+Qwen pipeline and links to both existing generations, with no invitation form or
+private backend dependency. Original meshes are displayed on white with neutral
+lighting; the animated tea house and lantern presets retain their atmosphere and
+animation controls. The private upload service remains separate and authenticated.
 
-### Required deployment setting
+The globe shows only journeys with generated scenes. Source publication dates
+are retained in metadata but removed from the homepage. Sai Kung's boat follows
+a complete 60-second circuit around the island with its three passengers.
 
-Set `docs/site-config.json` to the approved HTTPS **origin** of the upload app:
-
-```json
-{"uploadAppUrl":"https://your-approved-upload-host.example/"}
-```
-
-The `.example` value is illustrative; it is not a working service address.
-The upload app must already be deployed there and its invitation login checked.
-Keep invitation codes out of this file and repository. Use the upload service's
-secure-cookie HTTPS configuration described in the
-[MemGen upload guide](https://github.com/dsgn2002/MemGen/tree/main/upload-app).
-
-**The public upload app remains unconfigured.** The published form posts an invitation to the loopback recording server at `127.0.0.1:8898` when opened on the demo computer. The recording server and SSH forward must be running. On any other device, the host must provide a separately deployed HTTPS workspace.
-The existing `https://dsgn2002.github.io/sai-kung-3d-viewer/demo/index.html` URL
-is the static sample viewer, not an upload backend. GitHub Pages does not host
-the Python API/GPU worker. A local `127.0.0.1` address is not usable by teammates.
-No public tunnel or upload service is created. Do not announce public uploads as available until the real HTTPS origin has been configured and verified.
-The launcher rejects non-HTTPS, credential-bearing/query/hash URLs, GitHub Pages
-hosts and non-root paths to prevent an accidental loop back into the demos.
+Build and package the shared viewer following `../upload-app/README.md`. Only
+approved demo outputs belong in `docs/create/assets/`; never copy a full private
+workspace into the site.
 
 ### Review locally
 
 ```bash
-python3 -m http.server 8789 --bind 127.0.0.1 --directory docs
-node --test tests/config.test.mjs
+python3 -m http.server 8790 --bind 127.0.0.1 --directory docs
+PLAYWRIGHT_MODULE=/path/to/playwright SITE_URL=http://127.0.0.1:8790/ node tests/polish-smoke.cjs
 ```
 
-Open `http://127.0.0.1:8789/` and `/create/`. Serve through HTTP rather than opening HTML as a file. The root opens the globe, and the public invitation form needs the recording server on port 8898. The globe remains usable without the upload service.
+The regression check covers desktop/mobile layouts, real journey listings, the
+full boat circuit and pause control, both generated meshes on white, animated
+preset switching, and static loading without API requests. GitHub Pages serves
+`docs/`; no upload service needs to be configured for this demo.
 
-Browser smoke check (Playwright and Chrome supplied by your environment):
-
-```bash
-PLAYWRIGHT_MODULE=/path/to/playwright \
-CHROME_PATH=/path/to/chrome \
-SITE_URL=http://127.0.0.1:8789/ \
-node tests/site-smoke.cjs
-```
-
-Verified at desktop (1280 px) and phone (390 px) widths: globe and creation navigation, invitation form availability, both 3D demos loading geometry, and links from both viewers into the personal flow.
-The configured-launch test uses an explicitly mocked HTTPS workspace; a real
-public endpoint and end-to-end public upload remain to be configured and tested.
-
-
-## Record a demo now — no new hosting provider
-
-Use the existing Spark upload API/worker and SSH forward on port 8892. Run:
-
-```bash
-python3 scripts/recording_server.py --port 8897 --upload-port 8892
-```
-
-Open **http://127.0.0.1:8897/**. The site enters at the globe. Choose **Create your own**, enter your existing
-invitation code, and click **Enter workspace**. The invitation is checked against
-the real Spark application. The browser then opens the authenticated workspace
-at `http://127.0.0.1:8892/`, where saved trips and the normal upload → analysis →
-review → generation flow are available. No second login is needed.
-
-The recording server binds only to `127.0.0.1`. It serves the website and forwards
-only `/demo-login` to the existing loopback upload service. Native form posts from the exact GitHub Pages origin are accepted so a demo computer can start at the public globe. It does not start
-inference or create public tunnels. Codes are never stored or logged, and the
-HTTP-only session cookie is preserved. Both ports deliberately use the same
-loopback hostname so the cookie can reach the upload app. Use the upload app's
-existing local-HTTP configuration (`TRIP_COOKIE_SECURE=0`); retain secure cookies
-for any later HTTPS deployment. Keep the recording server and SSH forward running
-while recording. The public HTTPS deployment can be configured separately later.
-
-Validation: four configuration checks and three login-gateway tests pass. A real
-invitation login in Chrome opens existing saved projects without a second login;
-the desktop and phone layouts were inspected. No upload or inference job was
-started during this check. This is a single-user recording setup, not a load test.
-
-```bash
-python3 -m unittest discover -s tests -p 'test_*.py'
-```
-
-## Record the merged globe UI with personal uploads
-
-To combine the teammate's merged MemGen world interface with the invitation
-workflow, prepare a separate preview directory. The published demo files remain
-unchanged. Use a MemGen ref that contains the world UI (PR #2 or newer):
-
-```bash
-python3 scripts/prepare_world_preview.py --memgen /path/to/MemGen \
-  --ref origin/main --output /tmp/memgen-world-preview
-python3 scripts/recording_server.py --port 8898 --upload-port 8892 \
-  --docs-dir /tmp/memgen-world-preview
-```
-
-Open `http://127.0.0.1:8898/demo/world.html`. **Create your own scene** leads to
-`/create/`, where the real invitation login opens the existing upload workspace.
-The same entry is available from scene viewers and sample-destination cards.
-The create page has a World link for returning to the globe. Source commit
-provenance is recorded in `preview-revision.txt` in the generated directory.
-Personal results remain in the private workspace; the static globe does not
-invent coordinates or add uploaded trips automatically.
+The old loopback recording gateway is retained for private operator workflows.
+It is no longer used by the public create page.

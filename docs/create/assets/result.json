@@ -1,0 +1,71 @@
+{
+  "style": "cinematic",
+  "lighting": "night",
+  "assets": [
+    {
+      "id": "moment-02",
+      "label": "A meal to remember",
+      "mesh": "moment-02.web.glb",
+      "mesh_sha256": "645280b1843e262f76a87621c503b0b0941ccfbca9a2e4fd9ff9fdbc07060229",
+      "source": "moment-02-source.jpg",
+      "design": "moment-02-style.png",
+      "source_sha256": "37ac453406f6fdba8bc086afa4cde1e361c352768e7cac02186e8328f8709560",
+      "presentation": {
+        "preset": "dining-characters-v1"
+      }
+    },
+    {
+      "id": "moment-03",
+      "label": "Festival lanterns",
+      "mesh": "moment-03.web.glb",
+      "mesh_sha256": "35f2bbb6225adda4014f154efe602249ef298543b55121558a5d66b3f9ec541c",
+      "source": "moment-03-source.jpg",
+      "design": "moment-03-style.png",
+      "source_sha256": "162ac19acde688cad749f712920fbe31149abd677adbd7b06058cf0b030e91cd",
+      "presentation": {
+        "preset": "lantern-display-v1"
+      }
+    }
+  ],
+  "limitations": [
+    "Source-guided miniatures; hidden surfaces are inferred.",
+    "No geometric reconstruction or identity accuracy claim.",
+    "Lighting is a creative viewer setting, not a source observation."
+  ],
+  "timing": {
+    "generation_queued_at": 1790582136.3829184,
+    "generation_started_at": 1790582136.6166835,
+    "generation_finished_at": 1790582982.0639246,
+    "generation_seconds": 845.4472410678864,
+    "generation_queue_seconds": 0.2337651252746582,
+    "analysis_attempt_seconds": 2061.907690525055,
+    "first_analysis_to_generation_seconds": 14854.314178466797,
+    "approval_wait_seconds": 11376.028507709503,
+    "stages": {
+      "Styling your selected moments": {
+        "started_at": 1790582136.7436419,
+        "finished_at": 1790582790.576321,
+        "seconds": 653.8326790332794
+      },
+      "Generating textured 3D meshes": {
+        "started_at": 1790582790.5986516,
+        "finished_at": 1790582980.9177992,
+        "seconds": 190.3191475868225
+      },
+      "Preparing the interactive 3D memory": {
+        "started_at": 1790582980.9378777,
+        "finished_at": 1790582982.0635808,
+        "seconds": 1.1257030963897705
+      }
+    },
+    "note": "Wall time includes prior failed analysis attempts, recovery, fixes, and review wait. Analysis timestamps begin at queue submission."
+  },
+  "provenance": {
+    "models": [
+      "Qwen-Image-Edit-2511",
+      "TRELLIS.2-4B"
+    ],
+    "offline_inference": true,
+    "demo": "Precomputed Mid-Autumn selection"
+  }
+}
