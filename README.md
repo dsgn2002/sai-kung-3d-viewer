@@ -32,8 +32,9 @@ Three sampled video moments now select different generated architecture: an offi
 
 `/create/` is an open, precomputed Mid-Autumn walkthrough. It shows the saved local
 Qwen pipeline and links to both existing generations, with no invitation form or
-private backend dependency. Original meshes are displayed on white with neutral
-lighting; the animated tea house and lantern presets retain their atmosphere and
+private backend dependency. The default view displays the saved design image directly, with wheel, button,
+keyboard, and pinch zoom plus drag-to-pan, preserving its original brightness.
+Original meshes remain available on white with neutral lighting; the animated tea house and lantern presets retain their atmosphere and
 animation controls. The private upload service remains separate and authenticated.
 
 The globe shows only journeys with generated scenes. Source publication dates
@@ -58,3 +59,7 @@ preset switching, and static loading without API requests. GitHub Pages serves
 
 The old loopback recording gateway is retained for private operator workflows.
 It is no longer used by the public create page.
+
+Design-view regression: `node tests/design-zoom-smoke.cjs` checks a 2560-pixel
+display, phone pinch, zoom/pan/reset, zero initial GLB requests, and switching
+between the saved image, original mesh, and animated presets.
