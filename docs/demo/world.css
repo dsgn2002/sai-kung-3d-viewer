@@ -149,4 +149,4 @@ h1,h2,h3,p{margin:0}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 
-.create-scene{display:inline-flex;align-items:center;min-height:44px;margin-top:16px;padding:10px 18px;background:var(--amber);color:var(--deep);border-radius:999px;text-decoration:none;font-weight:600;box-shadow:var(--shadow)}.create-scene:hover{background:#ffd184}#card-add{text-decoration:none}
+.world-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:16px}.create-scene{display:inline-flex;align-items:center;min-height:44px;padding:10px 18px;background:var(--amber);color:var(--deep);border-radius:999px;text-decoration:none;font-weight:600;box-shadow:var(--shadow)}.create-scene:hover{background:#ffd184}.article-link{color:var(--mist);font-size:14px;text-underline-offset:4px}#card-add{text-decoration:none}
