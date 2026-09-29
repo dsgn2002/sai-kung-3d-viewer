@@ -14,7 +14,7 @@
 </head>
 <body>
   <header class="site-head">
-    <a class="brand" href="../demo/world.html">My Travel Journey</a>
+    <a class="brand" href="../demo/world.html">R∞ / My Travel Journey</a>
     <nav aria-label="页面导航">
       <a href="../demo/world.html">探索项目</a>
       <a href="#downloads">下载征文</a>
@@ -26,6 +26,7 @@
       <header class="hero">
         <p class="eyebrow">DGX Spark Agent Skills 黑客松 · 参赛历程记录</p>
         <h1>我们的交互式三维<br>旅行回忆开发历程</h1>
+        <p class="teamline">团队成员｜Gamage Nanayakkara Dinusara Sasindu · 范笑朧 · 莫宸尔</p>
         <p class="lead">由旅行者选择回忆、核对原始画面，再探索生成的场景。</p>
         <div class="hero-actions">
           <a class="button primary" href="#story">阅读征文</a>
@@ -39,7 +40,8 @@
         <h2>让回忆成为可以再次进入的空间</h2>
         <p>旅行结束后，照片和视频还在，重新走进那段时光的机会却很少。我们想保留的不只是某个景点的外观，还有同行的人、船上的片刻，以及穿过城市的节奏。My Travel Journey 由此出发：把选中的旅行片段变成能够旋转、探索和对照原始画面的三维回忆。</p>
         <p>参加 DGX Spark Agent Skills 黑客松，让这个想法有了具体的开发方向。我们从数字纪念品实验逐步走向可交互场景，把“生成一个模型”扩展为“理解旅行者想留下什么”。项目现名为 My Travel Journey，早期代码沿用 MemGen 仓库名称。</p>
-        <p>在当前的公开演示中，世界地图连接西贡海岸和香港电车两组场景。用户可以跟随小船、切换城市片段，也能改变光照氛围。它们是经过整理的示例；我们的目标，是让回忆拥有一个可以再次进入的空间。</p>
+        <p>在当前的公开演示中，世界地图连接西贡海岸和香港电车两组场景。用户可以跟随小船、切换城市片段，也能改变光照氛围。它们是经过整理的示例，地图上的其他样例地点并不代表已经生成的旅行作品。</p>
+        <p>我们的目标，是让回忆拥有一个可以再次进入的空间。</p>
       </section>
 
       <figure class="wide-figure">
@@ -52,9 +54,9 @@
         <h2>以实际问题推动路线调整</h2>
         <div class="timeline">
           <div><span>01</span><h3>验证交付</h3><p>我们先用现成网格制作可定制的数字纪念品，验证模型导出和浏览器展示。这个小实验打通了交付路径，也让我们开始思考作品怎样才能真正来自一段旅行。</p></div>
-          <div><span>02</span><h3>认识视角的限制</h3><p>随后，我们从视频画面估计深度，把纹理投影到表面，再通过 Omniverse 组装和渲染。接近原始视角时效果较好，转到侧面后却能看到拉伸与缺失的背面。</p></div>
+          <div><span>02</span><h3>认识视角的限制</h3><p>随后，我们从视频画面估计深度，把纹理投影到表面，再通过 Omniverse 组装和渲染。接近原始视角时效果较好，但转到侧面后，拉伸伪影与背面几何的缺失十分明显。</p></div>
           <div><span>03</span><h3>生成微缩回忆</h3><p>路线逐渐转向依据素材生成风格化微缩场景：先选择回忆，再进行图像风格化与纹理网格生成。原始片段始终保留在场景旁边。</p></div>
-          <div><span>04</span><h3>连接个人素材</h3><p>最后，我们把入口扩展到个人视频和照片。上传、填写关注点、查看候选片段、确认选择，再启动生成，形成了实际跑通的流程。</p></div>
+          <div><span>04</span><h3>连接个人素材</h3><p>最后，我们把入口扩展到个人视频和照片。上传、填写关注点、查看候选片段、确认选择，再启动生成，形成了可实际运行的端到端流程。</p></div>
         </div>
       </section>
 
@@ -84,7 +86,7 @@
           <li>素材与关注点</li><li>意图理解</li><li>证据选择</li><li>用户确认</li><li>图像风格化</li><li>纹理网格生成</li><li>浏览器探索</li>
         </ol>
         <p>确认后，Qwen 图像编辑负责风格化，TRELLIS.2 生成带纹理的三维网格，浏览器提供旋转、缩放和光照控制。模型推理在我们远程使用的 DGX Spark 上本地运行；这不意味着所有步骤都是自动完成的。</p>
-        <p>在整理好的风景示例中，Omniverse 承担 USD 场景组装、动画与光照设置，并渲染 RTX 预览。个人上传微缩模型的流程不据此宣称已经完成 Omniverse 导出。</p>
+        <p>在整理好的风景示例中，Omniverse 承担 USD 场景组装、动画与光照设置，并渲染 RTX 预览。个人上传微缩模型的流程不包含 Omniverse 导出步骤；风景示例中的 Omniverse 组装不代表该上传流程已具备同等能力。</p>
       </section>
 
       <figure class="wide-figure compact">
@@ -95,8 +97,8 @@
       <section class="section">
         <p class="chapter">04 · 挑战与成果</p>
         <h2>小船上的旅伴，改变了我们的检查方式</h2>
-        <p>最有启发的一次问题，是小船生成出来了，重要的旅伴却没有被完整保留。场景看起来像一次旅行，并不等于它保留了用户在意的回忆。我们重新对照原始画面，将三位旅伴作为独立资产补入示例，并继续检查他们在浏览器中的呈现。</p>
-        <p>这也推动我们把需求和证据显式记录下来：画面是否支持某个人物或地点，不能只靠模型说得自信。无法核实的身份保持未确定，创作性的布局和光照则明确标注，避免把艺术呈现当成精确复原。</p>
+        <p>最令我们反思的一次经历，是小船生成出来了，重要的旅伴却没有被完整保留。场景在视觉上呈现为一次旅行，并不意味着它真正保留了用户所珍视的回忆。我们重新对照原始画面，将三位旅伴作为独立资产补入示例，并继续检查他们在浏览器中的呈现。</p>
+        <p>这也推动我们把需求和证据显式记录下来：画面是否支持某个人物或地点，不能仅凭模型输出的高置信度。无法核实的身份保持未确定，创作性的布局和光照则明确标注，避免把艺术呈现当成精确复原。</p>
         <p>一次真实上传视频的测试产生了三个候选时刻，用户确认其中两个，随后得到聚餐和灯笼展示的纹理微缩模型。该次三维生成耗时十四分十四秒，包含模型启动；它是单次运行记录，不代表所有素材的速度。</p>
         <p>演示还增加了人工整理的餐厅人物动画和灯笼摆动。这些细化提升了观看体验，但不是任意视频都能自动获得的功能，也不是自动修复成功的证据。</p>
       </section>
@@ -110,27 +112,24 @@
         <p class="chapter">05 · 收获与下一步</p>
         <h2>让旅行者决定，哪些回忆值得留下</h2>
         <p>这次参赛让我们重新理解“完成一个作品”：除了能生成结果，还要能解释结果从哪里来、哪些部分经过创作，以及用户如何作出选择。原始画面与生成场景并排展示，使这件事变得直观。</p>
-        <p>我们也学会了如实描述性能。开发记录里，从首次分析到生成结束共七十五分二十四秒，其中包含失败、修复、实现和等待用户确认的时间。把它直接写成模型推理耗时，会掩盖真实过程。稳定性和可恢复性同样值得记录。</p>
-        <p>目前，隐藏表面仍依赖模型推断，人物身份与场景细节可能发生偏差；示例布局和部分动画需要人工整理。项目尚未进行模型微调，也没有实现运行时多智能体协作或通用的自动场景修复。</p>
+        <p>我们也学会了如实描述性能。开发记录里，从首次分析到生成结束共七十五分二十四秒，其中包含失败、修复、实现和等待用户确认的时间。若将其直接报告为模型推理耗时，则会掩盖真实的开发过程。稳定性和可恢复性同样值得记录。</p>
+        <p>目前，模型中不可见的背面几何仍依赖推断生成，人物身份与场景细节可能发生偏差；示例布局和部分动画需要人工整理。项目尚未进行模型微调，也没有实现运行时多智能体协作或通用的自动场景修复。</p>
         <p>下一步，我们希望在更多旅行素材上检查需求覆盖与画面一致性，完善有边界的检查和修复流程，再逐步改进分享与持续编辑。我们希望保留下来的，是由旅行者自己确认、能够回看依据的回忆。</p>
       </section>
 
       <section id="downloads" class="downloads">
         <p class="chapter">参赛材料</p>
-        <h2>下载完整征文与演示文稿</h2>
+        <h2>下载完整征文</h2>
         <div class="download-grid">
           <a href="downloads/My-Travel-Journey-Competition-Article-zh-CN.pdf" download>
             <span>PDF · 5 页</span><strong>完整简体中文征文</strong><small>约 1,500 字，包含项目历程、技术方法、成果与素材说明。</small>
-          </a>
-          <a href="downloads/My-Travel-Journey-Competition-zh-CN.pptx" download>
-            <span>PPTX · 10 页</span><strong>可编辑 PowerPoint</strong><small>与征文配套的十页简体中文演示文稿。</small>
           </a>
         </div>
       </section>
 
       <section class="credits">
         <h2>项目入口与素材说明</h2>
-        <p><a href="../demo/world.html">项目网站</a> · <a href="https://github.com/dsgn2002/MemGen">开源代码与技术记录</a></p>
+        <p><a href="../demo/world.html">项目网站</a> · <a href="https://github.com/dsgn2002/My-Travel-Journey">开源代码与技术记录</a></p>
         <p>西贡原片：The Travel Intern，<a href="https://www.youtube.com/watch?v=9jtnoejpLcU">Hong Kong Outdoor Adventure</a>。香港电车原片：michaelinlondon，<a href="https://commons.wikimedia.org/wiki/File:Hong_Kong_Trams,_September_2009-UKNqZzl2cu8.webm">Hong Kong Trams, September 2009</a>，CC BY 3.0。个人上传结果图取自项目测试记录；细化人物使用 Quaternius CC0 资产。</p>
         <p>Qwen 与 TRELLIS.2 为上游模型；NVIDIA 技术在本项目中包括 DGX Spark 和风景示例的 Omniverse。项目不是 NVIDIA 官方产品。</p>
       </section>
