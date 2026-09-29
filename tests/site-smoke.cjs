@@ -14,7 +14,8 @@ const out=process.env.SCREENSHOT_DIR||'/tmp/memgen-site-review';fs.mkdirSync(out
   await page.locator('#world-create').click();await page.waitForURL('**/create/');
   if(await page.locator('nav a').count()!==2)throw Error('Create navigation must contain World and Create only');
   if(await page.locator('.samples').count())throw Error('Old sample tabs are still visible');
-  await page.waitForFunction(()=>!document.querySelector('#invitation-code').disabled);
+  if(await page.locator('#invitation-form').count())throw Error('Static demo must not require an invitation');
+  await page.locator('#pipeline').waitFor();
   if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('Create page overflow');
   await page.screenshot({path:out+'/create-'+width+'.png',fullPage:true});
  }
@@ -27,5 +28,5 @@ const out=process.env.SCREENSHOT_DIR||'/tmp/memgen-site-review';fs.mkdirSync(out
   await page.locator('#create-link').click();await page.waitForURL('**/create/');
  }
  if(errors.length)throw Error(errors.join('\n'));
- console.log('PASS: globe entrance, unlocked invitation, compact navigation, both 3D scenes.');
+ console.log('PASS: globe entrance, invitation-free static pipeline, compact navigation, both 3D scenes.');
 }finally{await browser.close()}})().catch(error=>{console.error(error);process.exit(1)});

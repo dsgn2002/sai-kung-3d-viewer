@@ -67,7 +67,7 @@ h1,h2,h3,p{margin:0}
 .pin-sample:hover .pin-title,.pin-sample[aria-pressed=true] .pin-title{color:var(--mist)}
 
 /* ---------- journeys index ---------- */
-.journeys{position:absolute;z-index:4;top:16px;right:16px;bottom:16px;width:var(--panel-w);display:flex;flex-direction:column;border-radius:18px;background:var(--panel);color:var(--ink);box-shadow:var(--shadow);overflow:hidden}
+.journeys{position:absolute;z-index:4;top:16px;right:16px;max-height:calc(100dvh - 32px);width:var(--panel-w);display:flex;flex-direction:column;border-radius:18px;background:var(--panel);color:var(--ink);box-shadow:var(--shadow);overflow:hidden}
 .journeys:not([open]){bottom:auto}
 .journeys summary{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:18px 20px 12px;cursor:default;list-style:none}
 .journeys summary::-webkit-details-marker{display:none}

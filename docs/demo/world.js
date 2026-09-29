@@ -40,7 +40,7 @@ const tripById = new Map();
 const regionById = new Map();
 const D2R = Math.PI / 180;
 const R2D = 180 / Math.PI;
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 
 window.worldState = () => ({
   ready,
@@ -149,21 +149,8 @@ function flyTo(lat, lng, distance, ms = 1400) {
   return animateCameraTo(latLngToVector(lat, lng, 1), distance, ms);
 }
 
-function monthYear(date) {
-  const [year, month] = date.split('-');
-  return `${MONTHS[Number(month) - 1] || ''} ${year}`;
-}
-
 function renderStats() {
-  const liveCount = trips.filter((trip) => trip.status === 'live').length;
-  const sampleCount = trips.length - liveCount;
-  const years = trips.map((trip) => Number(trip.date.slice(0, 4)));
-  const minYear = Math.min(...years);
-  const maxYear = Math.max(...years);
-  const liveNoun = liveCount === 1 ? 'scene' : 'scenes';
-  const sampleNoun = sampleCount === 1 ? 'place' : 'places';
-  const samples = sampleCount === 0 ? '' : ` and ${sampleCount} sample ${sampleNoun}`;
-  statsEl.textContent = `${liveCount} ${liveNoun} to explore${samples}, from ${minYear} to ${maxYear}.`;
+  statsEl.textContent = `${trips.length} journeys to explore · Hong Kong`;
 }
 
 function appendTripMarkup(parent, trip) {
@@ -194,7 +181,7 @@ function appendTripMarkup(parent, trip) {
   title.textContent = trip.title;
   const meta = document.createElement('span');
   meta.className = 'j-meta';
-  meta.textContent = `${trip.chapter}, ${trip.dateLabel}`;
+  meta.textContent = trip.chapter;
   text.append(title, meta);
   button.append(text);
 
@@ -223,25 +210,14 @@ function renderJourneys() {
   journeyCountEl.textContent = `${trips.length} places`;
   journeyListEl.replaceChildren();
 
-  const byYear = new Map();
-  for (const trip of trips) {
-    const year = trip.date.slice(0, 4);
-    if (!byYear.has(year)) byYear.set(year, []);
-    byYear.get(year).push(trip);
-  }
-
-  const years = [...byYear.keys()].sort((a, b) => Number(b) - Number(a));
-  for (const year of years) {
-    const section = document.createElement('section');
-    section.className = 'j-year';
-    const heading = document.createElement('h3');
-    heading.textContent = year;
-    const list = document.createElement('ol');
-    const yearTrips = byYear.get(year).sort((a, b) => b.date.localeCompare(a.date));
-    for (const trip of yearTrips) appendTripMarkup(list, trip);
-    section.append(heading, list);
-    journeyListEl.append(section);
-  }
+  const section = document.createElement('section');
+  section.className = 'j-year';
+  const heading = document.createElement('h3');
+  heading.textContent = 'Hong Kong';
+  const list = document.createElement('ol');
+  for (const trip of trips) appendTripMarkup(list, trip);
+  section.append(heading, list);
+  journeyListEl.append(section);
 }
 
 function setSelectedAria() {
@@ -263,7 +239,7 @@ function makeTripPin(trip) {
   button.dataset.trip = trip.id;
   button.setAttribute('aria-pressed', 'false');
   const action = trip.status === 'live' ? 'Open details.' : 'Sample trip.';
-  button.setAttribute('aria-label', `${trip.title}, ${trip.chapter}, ${trip.dateLabel}. ${action}`);
+  button.setAttribute('aria-label', `${trip.title}, ${trip.chapter}. ${action}`);
 
   const dot = document.createElement('span');
   dot.className = 'pin-dot';
@@ -274,7 +250,7 @@ function makeTripPin(trip) {
   title.textContent = trip.chapter;
   const date = document.createElement('span');
   date.className = 'pin-date';
-  date.textContent = monthYear(trip.date);
+  date.textContent = 'Explore scene';
   label.append(title, date);
   button.append(dot, label);
   button.addEventListener('click', () => selectTrip(trip.id));
@@ -572,10 +548,6 @@ function syncTripCard(trip) {
   $('#card-badge').hidden = trip.status === 'live';
   $('#card-chapter').textContent = trip.chapter;
   $('#card-title').textContent = trip.title;
-  const date = $('#card-date');
-  date.textContent = trip.dateLabel;
-  date.setAttribute('datetime', trip.date);
-  $('#card-date-note').textContent = trip.dateNote || '';
   $('#card-summary').textContent = trip.summary;
   const photos = $('#card-photos');
   photos.textContent = trip.status === 'live' ? `${trip.memories.length} photos from this trip` : '';
@@ -670,7 +642,7 @@ async function init() {
       readJson('trips.json'),
       readJson('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'),
     ]);
-    trips = data.trips;
+    trips = data.trips.filter(trip => trip.status === 'live' && trip.scene);
     regions = data.regions;
     for (const trip of trips) tripById.set(trip.id, trip);
     for (const region of regions) regionById.set(region.id, region);
