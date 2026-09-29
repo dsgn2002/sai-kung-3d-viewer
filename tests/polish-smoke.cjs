@@ -34,7 +34,8 @@ const out=process.env.SCREENSHOT_DIR||'/tmp/journey-polish';fs.mkdirSync(out,{re
 
  if(!process.env.SKIP_GENERATIONS){
   const requests=[];page.on('request',r=>requests.push(r.url()));
-  await page.goto(base+'create/generation.html');await page.waitForFunction(()=>window.memgenViewer?.vertices>0,null,{timeout:120000});
+  await page.goto(base+'create/generation.html');await page.waitForFunction(()=>window.memgenViewer?.representation==='design',null,{timeout:120000});
+  await page.locator('#representation').selectOption('original');await page.waitForFunction(()=>window.memgenViewer?.vertices>0);
   for(const id of ['moment-02','moment-03']){
    await page.locator(`#moments [data-id="${id}"]`).click();
    await page.waitForFunction(id=>window.memgenViewer?.loaded===id&&window.memgenViewer.representation==='original',id,{timeout:60000});
